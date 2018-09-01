@@ -13,25 +13,26 @@ This module is based on similar modules created for AWS, AZURE, ...
 
 # goals
 
-- [ ] allow only non-root login
-- [ ] allow only login from private network
-- [ ] block all incoming traffic from `public` address
-- [ ] allow ssh on non-standard port, `22122`
-- [ ] install docker
+- [x] allow only non-root login
+- [x] allow only login from private network
+- [x] block all incoming traffic from `public` address
+- [x] allow ssh on non-standard port, `53211`
+- [x] install docker
 
 
 # Usage
 
 ```
-# Public Bastion Host Example
 module "bastion_host" {
-  source       = "../modules/ibmcloud-terraform-bastion"
-  key_name     = "${var.aws_key_name}"
-  dns_zone     = "${data.az.rkcloud.name}"
-  env          = "${var.env}"
-  hostname     = "bastion.${var.stack}-${var.env}-infra"
-  additional_user_data_script = "${data.template_file.consul_agent_json.rendered}"
-  subnet_ids   = "${module.vpc.public_subnets}"
+  source           = "./modules/ibmcloud-terraform-bastion"
+  name             = "sebastion-1"
+  ssh_keys         = "92..."
+  region           = "tor01"
+  domain           = "test.com"
+  port             = "53211"
+  username         = "ec2-user"
+  password         = "changeit"
+  path_private_key = "~/.ssh/id_rsa"
 }
 ```
 
